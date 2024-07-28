@@ -1,6 +1,7 @@
 from flask import Flask, request
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from flask_cors import CORS
 
 from .. import config
 from adapters import orm, repository
@@ -14,6 +15,7 @@ orm.metadata.create_all(engine) # create tables if they don't exist
 get_session = sessionmaker(bind=engine)
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/create", methods=["POST"])
 def create_endpoint():
