@@ -1,11 +1,12 @@
+
+from tictactoe.adapters import orm, repository
+from flask_cors import CORS
+import tictactoe.config as config
+from tictactoe.service import service
 from flask import Flask, request
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from flask_cors import CORS
 
-from .. import config
-from adapters import orm, repository
-from service import service
 
 orm.start_mappers()
 
@@ -16,6 +17,7 @@ get_session = sessionmaker(bind=engine)
 
 app = Flask(__name__)
 CORS(app)
+
 
 @app.route("/create", methods=["POST"])
 def create_endpoint():
@@ -34,13 +36,17 @@ def move_endpoint():
     session = get_session()
     repo = repository.SqlAlchemyRepository(session)
     
-    movement = service.move(
+    square = request.json["square"]
+    x = square["x"]
+    y = square["y"]
+
+    service.move(
         request.json["matchId"],
         request.json["playerId"],
-        request.json["square.x"],
-        request.json["square.y"],
+        x,
+        y,
         repo,
-        session,
+        session
     )
 
     return "OK", 200
@@ -56,4 +62,4 @@ def status_endpoint(matchId):
         repo,
         session,
     )
-    return {"matchId": matchStatus.id, "status": matchStatus.state, "currentPlayer": matchStatus.current_player, "board": ""}, 200
+    return {"matchId": matchStatus.id, "status": matchStatus.state, "currentPlayer": matchStatus.current_player, "board": matchStatus.board}, 200

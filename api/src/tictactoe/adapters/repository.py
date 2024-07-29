@@ -1,9 +1,9 @@
 import abc # abstract base classes
-from domain import model 
+from tictactoe.domain import model 
 
 class AbstractRepository(abc.ABC):
     @abc.abstractmethod
-    def add(self, match: model.Match):
+    def create(self, match: model.Match):
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -13,12 +13,20 @@ class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def update(self, match: model.Match):
         raise NotImplementedError
+    
+    @abc.abstractmethod
+    def add(self, match: model.Movement):
+        raise NotImplementedError
+    
+    @abc.abstractmethod
+    def getAll(self, id) -> list[model.Movement]:
+        raise NotImplementedError
 
 class SqlAlchemyRepository(AbstractRepository):
     def __init__(self, session):
         self.session = session
 
-    def add(self, match):
+    def create(self, match):
         self.session.add(match)
 
     def get(self, id):
@@ -29,4 +37,9 @@ class SqlAlchemyRepository(AbstractRepository):
             "current_player": match.current_player,
             "state": match.state
         })
+    
+    def getAll(self, id):
+        return self.session.query(model.Movement).filter(model.Movement.match_id == id).all()
 
+    def add(self, movement):
+        self.session.add(movement)

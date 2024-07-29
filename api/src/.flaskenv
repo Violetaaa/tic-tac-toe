@@ -1,3 +1,3 @@
-FLASK_APP=entrypoints/app.py 
-FLASK_DEBUG=1 
+FLASK_APP=entrypoints/app.py
+FLASK_DEBUG=1
 PYTHONUNBUFFERED=1
