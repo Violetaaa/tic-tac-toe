@@ -19,7 +19,7 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
     
     @abc.abstractmethod
-    def getAll(self, id) -> list[model.Movement]:
+    def getAll(self, id, order: str) -> list[model.Movement]:
         raise NotImplementedError
 
 class SqlAlchemyRepository(AbstractRepository):
@@ -38,8 +38,12 @@ class SqlAlchemyRepository(AbstractRepository):
             "state": match.state
         })
     
-    def getAll(self, id):
-        return self.session.query(model.Movement).filter(model.Movement.match_id == id).all()
+    def getAll(self, id, order=None):
+        match(order):
+            case "desc":
+                return self.session.query(model.Movement).filter(model.Movement.match_id == id).order_by(model.Movement.created_at.desc()).all()
+            case _:
+                return self.session.query(model.Movement).filter(model.Movement.match_id == id).all()
 
     def add(self, movement):
         self.session.add(movement)

@@ -6,7 +6,7 @@ from tictactoe.service import service
 from flask import Flask, request
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
+import logging
 
 orm.start_mappers()
 
@@ -18,6 +18,8 @@ get_session = sessionmaker(bind=engine)
 app = Flask(__name__)
 CORS(app)
 
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(name)s: %(message)s')
+logger = logging.getLogger(__name__)
 
 @app.route("/create", methods=["POST"])
 def create_endpoint():
