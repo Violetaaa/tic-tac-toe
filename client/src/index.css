@@ -1,0 +1,152 @@
+:root {
+  --background-color: #1a1a1a;
+  --board-background: #2c2c2c;
+  --cell-background: #444;
+  --cell-border: #555;
+  --cell-hover-background: #666;
+  --selected-background: #f39c12;
+  --turn-cell-background: #444;
+  --button-background: #e74c3c;
+  --button-hover-background: #c0392b;
+  --button-focus-shadow: rgba(231, 76, 60, 0.4);
+  --modal-background: #2c2c2c;
+  --modal-overlay-background: rgba(0, 0, 0, 0.5);
+  --text-color: #fff;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--background-color);
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background: var(--board-background);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+}
+
+.game {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  /* gap: 5px; */
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: var(--cell-background); */
+  /* border-radius: 8px; */
+  border: 2px solid var(--cell-border);
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.cell:hover {
+  background-color: var(--cell-hover-background);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.is-selected {
+  background-color: var(--selected-background) !important;
+}
+
+.turn {
+  display: flex;
+  gap: 10px;
+}
+
+.turn .cell {
+  width: 50px;
+  height: 50px;
+  background-color: var(--turn-cell-background);
+  border-radius: 8px;
+  border: 2px solid var(--cell-border);
+  font-size: 1.5rem;
+  cursor: default;
+}
+
+button {
+  background-color: var(--button-background);
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-color);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: var(--button-hover-background);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--button-focus-shadow);
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--modal-background);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  color: var(--text-color);
+  text-align: center;
+  z-index: 1000;
+  max-width: 300px;
+  width: 80%;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--modal-overlay-background);
+  z-index: 999;
+}
+
+.modal button {
+  background-color: var(--button-background);
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-color);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  margin-top: 20px;
+}
+
+.modal button:hover {
+  background-color: var(--button-hover-background);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}

@@ -5,31 +5,18 @@ import { Cell } from './Cell';
 import { Movement } from '../models/Movement';
 import { BoardCell } from '../models/BoardCell';
 import { Match } from '../models/Match';
-
-export enum Player {
-    x = '✖',
-    o = '⭘'
-}
-
-const emptyBoard: BoardCell[] = [
-    { col: 1, row: 1, value: "" },
-    { col: 2, row: 1, value: "" },
-    { col: 3, row: 1, value: "" },
-    { col: 1, row: 2, value: "" },
-    { col: 2, row: 2, value: "" },
-    { col: 3, row: 2, value: "" },
-    { col: 1, row: 3, value: "" },
-    { col: 2, row: 3, value: "" },
-    { col: 3, row: 3, value: "" },
-];
+import { Player, PlayerMapper } from '../models/Player';
+import { emptyBoard } from '../utils';
+import { Modal } from './Modal';
 
 
 export const Board = () => {
 
     const context = useContext(AppContext);
     const [board, setBoard] = useState<BoardCell[]>(emptyBoard);
-    const [turn, setTurn] = useState<Player>(Player.x);
-    const [matchState, setMatchState] = useState<string>(null);
+    const [player, setPlayer] = useState<Player>(Player.x);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [status, setStatus] = useState<string>('');
 
     const { id } = context;
 
@@ -37,27 +24,32 @@ export const Board = () => {
         const fetchStatus = async () => {
             const match: Match = await getStatus(id);
             setBoard(match.board);
-            setTurn(match.currentPlayer);
-            setMatchState(match.state);
+            setPlayer(PlayerMapper.toFrontModel(match.currentPlayer));
+            setStatus(match.status);
         };
 
         fetchStatus();
     }, [id]);
 
+    useEffect(() => {
+        if (status && status != 'ON GOING' && status != 'INIT') setIsModalOpen(true)
+    }, [status]);
+
     const retryGame = () => {
         createMatch().then((res) => {
             context.setId(res);
         })
+        setBoard(emptyBoard);
+        setIsModalOpen(false);
     }
 
     const handleClick = (x: number, y: number) => {
-        console.log('click', { x, y })
-        const movement: Movement = { matchId: id, playerId: turn, square: { x: x, y: y } };
+        const movement: Movement = { matchId: id, playerId: PlayerMapper.toBackModel(player), square: { x: x, y: y } };
         postMovement(movement).then(() => {
             getStatus(id).then((res) => {
                 setBoard(res.board);
-                setTurn(res.currentPlayer === (Player.x) ? Player.o : Player.x)
-                setMatchState(res.state)
+                setPlayer(PlayerMapper.toFrontModel(res.currentPlayer))
+                setStatus(res.status);
             })
         })
     }
@@ -69,11 +61,19 @@ export const Board = () => {
                 {
                     board.map((cell, index) => {
                         return (
-                            <Cell key={index} index={index} onClick={() => handleClick(cell.col, cell.row)}>
-                                {cell.value}
+                            <Cell key={index} index={index} onClick={() => handleClick(cell.row, cell.col)}>
+                                {cell.value ? PlayerMapper.toFrontModel(cell.value) : cell.value}
                             </Cell>
                         )
                     })
+                }
+            </section>
+            <section>
+                {isModalOpen &&
+                    <Modal
+                        message={status}
+                        onClose={() => retryGame()}
+                    />
                 }
             </section>
         </main>

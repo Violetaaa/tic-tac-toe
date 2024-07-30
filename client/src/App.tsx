@@ -1,4 +1,3 @@
-import './App.css'
 import { AppProvider } from './AppContext';
 import { Board } from './components/Board';
 
