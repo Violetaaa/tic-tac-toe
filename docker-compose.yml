@@ -1,0 +1,16 @@
+version: "3"
+services:
+
+  back:
+    image: back
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+    ports:
+      - "5000:5000"
+
+  front:
+    image: front
+    ports:
+      - "5173:5173"
+    depends_on:
+      - back
