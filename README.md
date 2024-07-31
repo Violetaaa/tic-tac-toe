@@ -102,7 +102,7 @@ Modify table `match` to add new column `user_id` as a foreign key to `user` tabl
 
 Some of the adaptations needed for the use of HTTP Basic Auth in the client and API:
   - Implement middleware in the Flask web service, responsible for cheking username and password against the database.
-  - When registerimg a new user, hash password before storing it in the database.
+  - When registering a new user, hash password before storing it in the database.
   - Encode username and password in the request headers.
   - Add forms in React app for sign-up and login.
 
