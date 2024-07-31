@@ -12,7 +12,7 @@ docker-compose up -d --build
 Access the game at http://localhost:5173
 
 ## 1. Web service
-- Python 3.9 and Flask.
+- Python 12 and Flask.
 - Clean architecture
 - Sqlite for DB persistence:
     - A relational database was chosen due to the structured nature of the data and its clear relations, enforcing data integrity. The database model is shown below.
@@ -82,8 +82,7 @@ Create new table `user`:
 | Columna         | Tipo         | Propiedades                              |
 |-----------------|--------------|------------------------------------------|
 | `id`            | `Integer`    | `primary_key=True`, `autoincrement=True` |
-| `username      `| `String(20)` |                                          |
-| `email         `| `String(20)` |                                          |
+| `email         `| `String(50)` |                                          |
 | `password`      | `String(20)` |                                          |
 | `created_at`    | `Datetime`   |                                          |
 | `updated_at`    | `Datetime`   |                                          |
@@ -102,10 +101,10 @@ Modify table `match` to add new column `user_id` as a foreign key to `user` tabl
 #### Architectural design changes:
 
 Some of the adaptations needed for the use of HTTP Basic Auth in the client and API:
-  - Implement middleware in Flask web service, responsible for cheking username and password against the database.
-  - When register a new user, hash password before store it in the database.
-  - Add forms in client for sign up and login.
-  - Encode username and password in request headers.
+  - Implement middleware in the Flask web service, responsible for cheking username and password against the database.
+  - When registerimg a new user, hash password before storing it in the database.
+  - Encode username and password in the request headers.
+  - Add forms in React app for sign-up and login.
 
 ## 3. React client
 - React 18 and TypeScript
