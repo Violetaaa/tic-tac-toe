@@ -2,6 +2,7 @@ version: "3"
 services:
 
   back:
+    build: ./api
     image: back
     environment:
       - PYTHONDONTWRITEBYTECODE=1
@@ -9,6 +10,7 @@ services:
       - "5000:5000"
 
   front:
+    build: ./client
     image: front
     ports:
       - "5173:5173"
