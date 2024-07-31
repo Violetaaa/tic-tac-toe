@@ -1,0 +1,166 @@
+openapi: 3.0.3
+info:
+  title: Tic Tac Toe API - OpenAPI 3.0
+  description:  API for VW DIGITAL:HUB technical test
+  version: 1.0.12
+tags:
+  - name: MVP
+    description: Basic gameplay features
+  - name: Authentication
+    description: New user service management (Part 2)
+paths:
+  /move:
+    post:
+      tags:
+        - MVP
+      summary: Play a move within the game
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movement'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+  /status/{matchId}:
+    get:
+      tags:
+        - MVP
+      summary: Get the current status of a given match
+      parameters:
+        - name: matchId
+          in: path
+          description: The match's ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+  /create:
+    post:
+      tags:
+        - MVP
+      summary: Create a new match
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+  /auth/signup:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Successful operation
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Authenticate user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+components:
+  schemas:
+    Movement:
+      type: object
+      properties:
+        matchId:
+          type: integer
+          description: The match's ID
+          example: 10
+        playerId:
+          type: string
+          description: The acting player
+          enum:
+            - x
+            - o
+        square:
+          type: object
+          description: The target square to mark
+          properties:
+            x:
+              type: integer
+              example: 1
+            y:
+              type: integer
+              example: 1
+    Status:
+      type: object
+      properties:
+        matchId:
+          type: integer
+          description: The match's ID
+          example: 10
+        currentPlayer:
+          type: string
+          description: The acting player
+          enum:
+            - x
+            - o
+        state:
+          type: string
+          description: The match current state
+          enum:
+            - INIT
+            - ON GOING
+            - x WIN
+            - y WIN
+            - DRAW
+        board:
+          type: array
+          items:
+              type: string
+    Match:
+      type: object
+      properties:
+        matchId:
+          type: integer
+          description: The new match's ID
+          example: 10
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+          example: email@email.com
+        password:
+          type: string
+          example: password
+    LoginResponse:
+      type: object
+      properties:
+        email:
+          type: string
+          example: email@email.com
+        password:
+          type: string
+          example: password
+    

@@ -1,0 +1,52 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "tictactoe",
+    "collectionId": "644eb035-cdfe-49ff-8c3b-c34667fbc6f6",
+    "dateExported": "2024-07-31T16:12:52.148Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "5d8bf3c6-61a8-4947-937b-408b6faf2a9b",
+            "colId": "644eb035-cdfe-49ff-8c3b-c34667fbc6f6",
+            "containerId": "",
+            "name": "TICTACTOE API POST /create",
+            "url": "http://127.0.0.1:5000/create",
+            "method": "POST",
+            "sortNum": 2500,
+            "created": "2024-07-31T16:10:44.308Z",
+            "modified": "2024-07-31T16:10:44.308Z",
+            "headers": []
+        },
+        {
+            "_id": "bbb2169c-3358-4871-bdf5-acaa49e19cde",
+            "colId": "644eb035-cdfe-49ff-8c3b-c34667fbc6f6",
+            "containerId": "",
+            "name": "TICTACTOE API GET /status",
+            "url": "http://127.0.0.1:5000/status/5",
+            "method": "GET",
+            "sortNum": 5000,
+            "created": "2024-07-31T16:10:37.316Z",
+            "modified": "2024-07-31T16:10:37.316Z",
+            "headers": []
+        },
+        {
+            "_id": "41338e8f-9d10-4e0b-9c50-f548b6df89d4",
+            "colId": "644eb035-cdfe-49ff-8c3b-c34667fbc6f6",
+            "containerId": "",
+            "name": "TICTACTOE API POST /move",
+            "url": "http://127.0.0.1:5000/move",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-07-31T16:10:27.444Z",
+            "modified": "2024-07-31T16:12:33.083Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"matchId\": 5,\n  \"playerId\": \"x\",\n  \"square\": {\n    \"x\": 2,\n    \"y\": 0\n  }\n}",
+                "form": []
+            }
+        }
+    ],
+    "ref": "my3MuTBpLN87syoFrb0VQAQMbtoMOjvRgA2kZlJBG1cTmKLDtf_GqGCo4n4ETVDEYweVabcM5XJuKt3zeFjESg"
+}
