@@ -56,11 +56,26 @@ def populateBoard(movements: list[Movement]) -> list:
     return board
 
 def findWinner(board: list) -> str:
-    for c in WINNER_COMBINATIONS:
-        if board[c[0][0]][c[0][1]] == board[c[1][0]][c[1][1]] == board[c[2][0]][c[2][1]]:
-            winner = board[c[0][0]][c[0][1]]
-            logger.debug(f"Winner found: {winner}")
-            return winner
+    # Check rows
+    for row in board:
+        if row[0] == row[1] == row[2] and row[0] is not None:
+            logger.debug(f"Winner found: {row[0]}")
+            return row[0]
+    
+    # Check columns
+    for col in range(3):
+        if board[0][col] == board[1][col] == board[2][col] and board[0][col] is not None:
+            logger.debug(f"Winner found: {board[0][col]}")
+            return board[0][col]
+    
+    # Check diagonals
+    if board[0][0] == board[1][1] == board[2][2] and board[0][0] is not None:
+        logger.debug(f"Winner found: {board[0][0]}")
+        return board[0][0]
+    if board[0][2] == board[1][1] == board[2][0] and board[0][2] is not None:
+        logger.debug(f"Winner found: {board[0][2]}")
+        return board[0][2]
+    
     return None
 
 def isBoardComplete(board: list) -> bool:
@@ -82,15 +97,3 @@ def formatBoard(movements: list[Movement]) -> list[dict]:
                 "value": board[row][col] or ""  
             })
     return formattedBoard
-
-
-WINNER_COMBINATIONS = [
-    [(0, 0), (0, 1), (0, 2)],
-    [(1, 0), (1, 1), (1, 2)],
-    [(2, 0), (2, 1), (2, 2)],
-    [(0, 0), (1, 0), (2, 0)],
-    [(0, 1), (1, 1), (2, 1)],
-    [(0, 2), (1, 2), (2, 2)],
-    [(0, 0), (1, 1), (2, 2)],
-    [(0, 2), (1, 1), (2, 0)]
-]
